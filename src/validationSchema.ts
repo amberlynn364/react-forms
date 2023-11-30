@@ -4,30 +4,34 @@ import validateImageExtension from './utils/validateImageExtension';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .required()
+    .required('Name is required field')
     .matches(/^[A-Z][a-z]*/, 'Name must start with an uppercase letter'),
   age: Yup.number()
-    .required()
-    .positive('Age must be a positive number')
-    .integer('Age must be an integer'),
-  email: Yup.string().required().email('Invalid email address'),
+    .required('Age is required field')
+    .typeError('Amount must be a number'),
+  email: Yup.string()
+    .required('Email is required field')
+    .email('Invalid email address'),
   password: Yup.string()
-    .required()
+    .required('Password is required field')
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])/,
-      'Password must contain at least one number, one uppercase letter, one lowercase letter, and one special character'
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])/,
+      'Password must contain at least one number, one uppercase letter, one lowercase letter, and one special character(!@#$%^&+=)'
     ),
   confirmPassword: Yup.string()
-    .required()
+    .required('Confirm Password is required field')
     .oneOf([Yup.ref('password')], 'Password must match'),
-  gender: Yup.string().required(),
-  acceptTandC: Yup.boolean().required().oneOf([true]),
+  gender: Yup.string().required('Select gender').oneOf(['male', 'female']),
+  acceptTandC: Yup.boolean()
+    .required('requierd field')
+    .oneOf([true], 'You must accept the terms of use'),
   picture: Yup.mixed()
     .required()
     .test(
       'fileSize',
       'Image size exceeds the maximum allowed limit of 5MB',
-      (value) => value instanceof File && value.size <= MAX_SIZE_FILE
+      (value) =>
+        !value || (value instanceof FileList && value[0].size <= MAX_SIZE_FILE)
     )
     .test(
       'fileExtension',
@@ -38,7 +42,8 @@ const validationSchema = Yup.object().shape({
         }
 
         const fileName =
-          (value instanceof File && value.name.toLocaleLowerCase()) || '';
+          (value instanceof FileList && value[0].name.toLocaleLowerCase()) ||
+          '';
         const fileType = 'image';
 
         return validateImageExtension(fileName, fileType);
