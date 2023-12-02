@@ -1,13 +1,10 @@
 import { VALID_FILE_EXTENSION } from '../constants/constants';
 
 export default function validateImageExtension(
-  fileName: string | undefined,
+  fileName: string,
   fileType: string
 ): boolean {
-  return (
-    fileName !== undefined &&
-    VALID_FILE_EXTENSION[fileType]?.includes(
-      fileName.split('.').pop()?.toLowerCase() || ''
-    )
+  return VALID_FILE_EXTENSION[fileType]?.includes(
+    fileName.split('.').pop()?.toLowerCase() || ''
   );
 }

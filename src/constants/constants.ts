@@ -5,6 +5,6 @@ export const VALID_FILE_EXTENSION: { [key: string]: string[] } = {
 };
 
 export const GENDERS = [
-  { value: 'male', label: 'male' },
-  { value: 'female', label: 'female' },
+  { id: 1, value: 'male', label: 'male' },
+  { id: 2, value: 'female', label: 'female' },
 ];

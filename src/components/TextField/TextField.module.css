@@ -1,6 +1,8 @@
 .inputWrapper {
   display: flex;
   flex-direction: column;
+  align-items: start;
+  min-height: 93px;
 }
 
 .inputWrapper * {
@@ -46,10 +48,10 @@ input::placeholder {
 
 
 .helperText {
+  padding-top: 2px;
+  padding-left: 14px;
   font-size: 14px;
   font-weight: 400;
-  margin-left: 12px;
-  margin-top: 4px;
   transition: color 0.3s;
 }
 

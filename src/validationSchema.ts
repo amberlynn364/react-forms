@@ -24,31 +24,32 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string().required('Select gender').oneOf(['male', 'female']),
   acceptTandC: Yup.boolean()
     .required('requierd field')
-    .oneOf([true], 'You must accept the terms of use'),
-  picture: Yup.mixed()
-    .required()
+    .oneOf([true], 'You must accept the T&C '),
+  picture: Yup.mixed<FileList>()
+    .required('Picture is required')
+    .test('fileExists', 'File is required', (value) => {
+      return value && value.length > 0;
+    })
     .test(
       'fileSize',
       'Image size exceeds the maximum allowed limit of 5MB',
-      (value) =>
-        !value || (value instanceof FileList && value[0].size <= MAX_SIZE_FILE)
+      (value) => (!value.length ? false : value[0].size <= MAX_SIZE_FILE)
     )
     .test(
       'fileExtension',
       'Invalid image extension. Only PNG and JPEG files are allowed.',
       (value) => {
-        if (!value) {
-          return true;
+        if (!value.length) {
+          return false;
         }
 
-        const fileName =
-          (value instanceof FileList && value[0].name.toLocaleLowerCase()) ||
-          '';
+        const fileName = value[0].name.toLocaleLowerCase() || '';
         const fileType = 'image';
 
         return validateImageExtension(fileName, fileType);
       }
     ),
+  country: Yup.string().required('Country is required'),
 });
 
 export default validationSchema;

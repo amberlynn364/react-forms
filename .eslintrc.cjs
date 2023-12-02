@@ -45,5 +45,6 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     'react/jsx-uses-react': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'no-param-reassign': 'off',
   },
 };

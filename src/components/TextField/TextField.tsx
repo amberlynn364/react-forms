@@ -24,9 +24,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function Comp(
         className={`${styles.input} ${error && styles.errorInput}`}
         {...inputProps}
       />
-      <p className={`${styles.helperText} ${error && styles.helperTextError}`}>
-        {error}
-      </p>
+      {error && (
+        <p
+          className={`${styles.helperText} ${error && styles.helperTextError}`}
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 });

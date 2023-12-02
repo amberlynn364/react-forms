@@ -8,3 +8,7 @@ body {
   color: #fff;
   font-family: 'Lusitana', serif;
 }
+
+label {
+  margin: 0;
+}
