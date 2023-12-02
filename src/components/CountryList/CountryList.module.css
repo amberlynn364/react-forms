@@ -1,0 +1,25 @@
+.countryList {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  top: 75px;
+  padding: 5px;
+  list-style: none;
+  background-color: #fff;
+  color: #24292e;
+  width: 250px;
+  border-radius: 10px;
+}
+
+.countryItem {
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  padding: 0 5px;
+}
+.countryItem:hover {
+  background-color: #d4d4d4;
+  border-radius: 10px;
+}
