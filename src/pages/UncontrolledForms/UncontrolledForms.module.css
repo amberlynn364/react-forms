@@ -1,0 +1,44 @@
+.uncontrolledSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.fileWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 50px;
+}
+
+.genderWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 50px;
+}
+
+.radioWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.genderWrapper label {
+  margin: 0;
+}
+
+.genderInputWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.tAndCWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 45px;
+}
+
+.errorMessage {
+  color: rgb(235, 45, 45);
+}
