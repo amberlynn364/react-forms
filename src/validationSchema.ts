@@ -8,7 +8,7 @@ const validationSchema = Yup.object().shape({
     .matches(/^[A-Z][a-z]*/, 'Name must start with an uppercase letter'),
   age: Yup.number()
     .required('Age is required field')
-    .typeError('Amount must be a number'),
+    .typeError('Age must be a number'),
   email: Yup.string()
     .required('Email is required field')
     .email('Invalid email address'),

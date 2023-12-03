@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './Main.module.css';
 import RouterPath from '../../router/routerTypes';
+import Cards from '../../components/Cards/Cards';
 
 export default function Main() {
   return (
@@ -14,6 +15,7 @@ export default function Main() {
           Uncontrolled Forms
         </Link>
       </div>
+      <Cards />
     </main>
   );
 }

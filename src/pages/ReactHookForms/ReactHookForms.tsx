@@ -22,7 +22,7 @@ export default function ReactHookForms() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<ValidFormData>({
     mode: 'onTouched',
     resolver: yupResolver(validationSchema),
@@ -76,6 +76,11 @@ export default function ReactHookForms() {
           placeholder="Confirm password"
           error={errors.confirmPassword?.message}
         />
+        <AutoComplete
+          register={register('country')}
+          setValue={setValue}
+          errorMessage={errors.country?.message}
+        />
         <div className={styles.genderWrapper}>
           <div className={styles.radioWrapper}>
             {GENDERS.map((option) => (
@@ -97,6 +102,20 @@ export default function ReactHookForms() {
             </span>
           )}
         </div>
+        <div className={styles.fileWrapper}>
+          <input
+            {...register('picture')}
+            type="file"
+            id="picture"
+            name="picture"
+          />
+          {errors.picture && (
+            <span className={styles.errorMessage}>
+              {errors.picture.message}
+            </span>
+          )}
+        </div>
+
         <div className={styles.tAndCWrapper}>
           <div style={{ display: 'flex', gap: 25 }}>
             <label htmlFor="acceptTandC">accept T&C</label>
@@ -113,25 +132,9 @@ export default function ReactHookForms() {
             </span>
           )}
         </div>
-        <div className={styles.fileWrapper}>
-          <input
-            {...register('picture')}
-            type="file"
-            id="picture"
-            name="picture"
-          />
-          {errors.picture && (
-            <span className={styles.errorMessage}>
-              {errors.picture.message}
-            </span>
-          )}
-        </div>
-        <AutoComplete
-          register={register('country')}
-          setValue={setValue}
-          errorMessage={errors.country?.message}
-        />
-        <input type="submit" />
+        <button type="submit" disabled={!isDirty || !isValid}>
+          Submit
+        </button>
       </form>
     </section>
   );
