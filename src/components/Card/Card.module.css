@@ -1,0 +1,45 @@
+.cardWrapper {
+  width: 350px;
+  border-radius: 5px;
+  padding-bottom: 15px;
+  background-color: #fff;
+}
+
+.cardGradient {
+  background-image: linear-gradient(#93baff, #200fff);
+  height: 125px;
+  border-radius: 4px 4px 0 0;
+}
+
+.cardGradienNewItem {
+  background-image: linear-gradient(#134091, #0ffff1);
+  height: 125px;
+  border-radius: 4px 4px 0 0;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardImg {
+  border-radius: 50%;
+  width: 150px; 
+  height: 150px;
+  object-fit: cover;
+  padding: 5px;
+  margin-top: -75px;
+  background-color: #fff;
+}
+
+.cardDescriptionWrapper {
+  width: 85%;
+}
+
+.cardDescription {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
