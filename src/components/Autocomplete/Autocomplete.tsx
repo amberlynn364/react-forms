@@ -1,15 +1,17 @@
-import { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
+/* eslint-disable react/require-default-props */
+import { useState, MouseEvent, ChangeEvent } from 'react';
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 import TextField from '../TextField/TextField';
 import CountryList from '../CountryList/CountryList';
-import { Country } from '../CountryList/CountryListTypes';
 import styles from './Autocomplete.module.css';
 import { ValidFormData } from '../../types/types';
+import { useAppSelector } from '../../store/hooks';
+import selectCountries from '../../store/features/countries/countriesSelector';
 
 interface AutoCompleteProps {
   errorMessage: string | undefined;
-  register: UseFormRegisterReturn<'country'>;
-  setValue: UseFormSetValue<ValidFormData>;
+  register?: UseFormRegisterReturn<'country'>;
+  setValue?: UseFormSetValue<ValidFormData>;
 }
 
 export default function AutoComplete({
@@ -17,34 +19,26 @@ export default function AutoComplete({
   register,
   setValue,
 }: AutoCompleteProps) {
-  const [countries, setCountries] = useState([]);
-  const [countryMatch, setCountryMatch] = useState([]);
+  const countriesList = useAppSelector(selectCountries);
+  const [countryMatch, setCountryMatch] = useState<string[]>([]);
+  const [country, setCountry] = useState('');
+  const countryValue = setValue === undefined ? country : undefined;
 
-  const { onChange } = register;
-
-  useEffect(() => {
-    const loadCountries = async () => {
-      const response = await fetch('https://restcountries.com/v3.1/all');
-      const data = await response.json();
-      setCountries(data);
-    };
-
-    loadCountries();
-  }, []);
+  const { onChange } = register || {};
 
   const searchCountries = (text: string) => {
     if (!text) {
       setCountryMatch([]);
       return;
     }
-    const matches = countries
-      .filter((item: Country) => {
+    const matches = countriesList
+      .filter((item: string) => {
         const regex = new RegExp(`^${text}`, 'i');
-        return item.name.common.match(regex);
+        return item.match(regex);
       })
-      .sort((a: Country, b: Country) => {
-        const nameA = a.name.common.toUpperCase();
-        const nameB = b.name.common.toUpperCase();
+      .sort((a, b) => {
+        const nameA = a.toUpperCase();
+        const nameB = b.toUpperCase();
         if (nameA < nameB) {
           return -1;
         }
@@ -53,27 +47,45 @@ export default function AutoComplete({
         }
         return 0;
       });
-    setCountryMatch(matches);
+    // .filter((item: Country) => {
+    //   const regex = new RegExp(`^${text}`, 'i');
+    //   return item.name.common.match(regex);
+    // })
+    // .sort((a: Country, b: Country) => {
+    //   const nameA = a.name.common.toUpperCase();
+    //   const nameB = b.name.common.toUpperCase();
+    //   if (nameA < nameB) {
+    //     return -1;
+    //   }
+    //   if (nameA > nameB) {
+    //     return 1;
+    //   }
+    //   return 0;
+    // });
+    setCountryMatch([...matches]);
   };
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     const { textContent } = event.target as HTMLElement;
     setCountryMatch([]);
-    setValue('country', textContent as string);
+    setValue?.('country', textContent as string);
+    setCountry(textContent as string);
   };
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     searchCountries(value);
-    onChange(event);
+    setCountry(value);
+    onChange?.(event);
   };
 
   return (
     <div className={styles.countrySelectWrapper}>
       <TextField
         {...register}
-        label="Country Select"
+        label="Country"
         name="country"
+        value={countryValue}
         placeholder="Enter country"
         onChange={handleOnChange}
         error={errorMessage}

@@ -1,28 +1,27 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { MouseEvent } from 'react';
 import styles from './CountryList.module.css';
-import { Country } from './CountryListTypes';
 
 export default function CountryList({
   country,
   handleClick,
 }: {
-  country: Country[];
+  country: string[];
   handleClick: (event: MouseEvent<HTMLElement>) => void;
 }) {
   return (
     <ul className={styles.countryList}>
       {country
-        .map((item: Country) => {
-          const { official, common } = item.name;
+        .map((item: string, index) => {
           return (
             <li
-              key={official}
+              key={index}
               className={styles.countryItem}
               onClick={handleClick}
             >
-              {common}
+              {item}
             </li>
           );
         })
